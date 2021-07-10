@@ -25,7 +25,6 @@ public class OnBoardingActivity extends AppCompatActivity {
     private ImageView[] dots;
 
 
-
     private ViewPager onboard_pager;
 
     private OnBoard_Adapter mAdapter;
@@ -95,7 +94,7 @@ public class OnBoardingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(OnBoardingActivity.this,"Redirect to wherever you want",Toast.LENGTH_LONG).show();
+                Toast.makeText(OnBoardingActivity.this,"Welcome Mate, to the world of Barbarians",Toast.LENGTH_LONG).show();
                 startActivity(new Intent(OnBoardingActivity.this,Home.class));
             }
 

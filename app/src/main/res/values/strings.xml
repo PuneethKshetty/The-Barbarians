@@ -20,4 +20,8 @@
         <item>Puneeth K Shetty</item>
         <item>Spandan H Shetty</item>
     </string-array>
+
+    <string name="date">Date of Booking</string>
+    <string name="time">Time of Booking</string>
+    <string name="barber">Barber Booked</string>
 </resources>

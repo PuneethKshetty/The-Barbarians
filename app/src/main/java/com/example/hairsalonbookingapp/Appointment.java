@@ -1,7 +1,6 @@
 package com.example.hairsalonbookingapp;
 
 import android.app.DatePickerDialog;
-import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.icu.util.Calendar;
@@ -22,22 +21,26 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Spliterator;
+import java.util.UUID;
 
 public class Appointment extends AppCompatActivity {
 
     EditText date_in;
     EditText time_in;
     Spinner spinnerName;
-    Button btnInsertData,button2;
+    Button btnInsertData,btnChooseData;
 
-    DatabaseReference studentDbRef;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +54,27 @@ public class Appointment extends AppCompatActivity {
         date_in = findViewById(R.id.date_input);
         time_in = findViewById(R.id.time_input);
         spinnerName = findViewById(R.id.spinner);
-        btnInsertData = findViewById(R.id.button);
-        button2 = findViewById(R.id.button2);
+        btnInsertData = findViewById(R.id.book_btn);
+        btnChooseData = findViewById(R.id.detail_btn);
 
-        studentDbRef = FirebaseDatabase.getInstance().getReference().child("Book");
+        db = FirebaseFirestore.getInstance();
 
+        btnChooseData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Appointment.this, Notification.class));
+            }
+        });
         btnInsertData.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                String id = UUID.randomUUID().toString();
                 String date = date_in.getText().toString().trim();
                 String time = time_in.getText().toString().trim();
                 String barber = spinnerName.getSelectedItem().toString().trim();
 
-                if (TextUtils.isEmpty(date)) {
+            /*    if (TextUtils.isEmpty(date)) {
                     date_in.setError("Add a Appointment Date");
                     return;
                 }
@@ -74,7 +84,8 @@ public class Appointment extends AppCompatActivity {
                 }
                     insertBarberData();
                     Toast.makeText(Appointment.this, "Appointment is Booked Successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Appointment.this, Notification.class));
+                    startActivity(new Intent(Appointment.this, Notification.class));*/
+                saveToFirestore(id,date,time,barber);
                 }
         });
 
@@ -96,32 +107,62 @@ public class Appointment extends AppCompatActivity {
                 showTimeDialog(time_in);
             }
         });
+        /*
+        btnChooseData.setOnClickListener(new View.OnClickListener() {  //button 2 here
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Appointment.this,"Check details here",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Appointment.this, Notification.class));
+            }
+        });
     }
+
         private void insertBarberData () {
             String date = date_in.getText().toString();
             String time = time_in.getText().toString();
             String barber = spinnerName.getSelectedItem().toString();
 
-            Book book = new Book(date, time, barber);
+            Booking book = new Booking(date, time, barber);
 
             //new record insertion (new id gen)
             studentDbRef.push().setValue(book).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onComplete(@NonNull  Task<Void> task) {
+                public void onComplete(@NonNull Task<Void> task) {
                     Toast.makeText(Appointment.this, "Appointment is Booked Successfully", Toast.LENGTH_SHORT).show();
                 }
-            });
-
-            button2.setOnClickListener(new View.OnClickListener() {  //button 2 here
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(Appointment.this, Notification.class));
-                }
-            });
+            });*/
 
         }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void saveToFirestore(String id, String date,String time, String barber){
+        if(!date.isEmpty() && !time.isEmpty()){
+            HashMap<String,Object>map = new HashMap<>();
+            map.put("id",id);
+            map.put("date",date);
+            map.put("time",time);
+            map.put("barber",barber);
+
+            db.collection("Documents").document(id).set(map)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(Appointment.this,"data Saved",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(Appointment.this,"Failed",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            Toast.makeText(this,"Empty Field not allowed ",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+   @RequiresApi(api = Build.VERSION_CODES.N)
     private void showTimeDialog(final EditText time_in) {
         final Calendar calendar=Calendar.getInstance();
         TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -153,5 +194,4 @@ public class Appointment extends AppCompatActivity {
           new DatePickerDialog(Appointment.this,dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
 
     }
-
 }

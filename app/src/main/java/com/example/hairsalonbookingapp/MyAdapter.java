@@ -7,34 +7,40 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    ArrayList<Book> mList;
-    Context context;
+   /* ArrayList<Booking> mList;
+    Context context;*/
+    private Notification activity;
+    private List<Booking> mList;
 
-    public MyAdapter(Context context,ArrayList<Book> mList){
+    public MyAdapter(Notification activity,List<Booking> mList){
         this.mList = mList;
-        this.context = context;
+        this.activity = activity;
+       /* this.context = context;*/
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item,parent,false);
+        View v = LayoutInflater.from(activity).inflate(R.layout.item,parent,false);
         return new MyViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
-       Book book = mList.get(position);
+      /* Booking book = mList.get(position);
        holder.date.setText(book.getDate());
        holder.time.setText(book.getTime());
-       holder.barber.setText(book.getBarber());
+       holder.barber.setText(book.getBarber());*/
+        holder.date.setText(mList.get(position).getDate());
+        holder.time.setText(mList.get(position).getTime());
+        holder.barber.setText(mList.get(position).getBarber());
     }
 
     @Override
