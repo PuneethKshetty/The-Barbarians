@@ -1,6 +1,6 @@
 Let me introduce you to <h1> The-Barbarians </h1> <h4>Mess with us and Get Cut </h4> <br>
 
-<img align="right" src="Screenshots/barber.png" width="300" height="300"/>
+<img align="center" src="Screenshots/barber.png" width="250" height="300"/>
 
 ### Introduction :
 This is an android Based Project which is mainly designed for users where they can book an appointment with the barber for the services provided to them .<br>
