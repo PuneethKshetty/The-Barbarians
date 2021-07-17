@@ -39,6 +39,7 @@ public class Appointment extends AppCompatActivity {
     EditText time_in;
     Spinner spinnerName;
     Button btnInsertData,btnChooseData;
+    FirebaseAuth fAuth;
 
     private FirebaseFirestore db;
 
@@ -69,7 +70,8 @@ public class Appointment extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                String id = UUID.randomUUID().toString();
+                FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                String id = fAuth.getCurrentUser().getUid();
                 String date = date_in.getText().toString().trim();
                 String time = time_in.getText().toString().trim();
                 String barber = spinnerName.getSelectedItem().toString().trim();
