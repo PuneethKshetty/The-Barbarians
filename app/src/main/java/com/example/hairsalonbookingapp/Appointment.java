@@ -149,13 +149,13 @@ public class Appointment extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(Appointment.this,"data Saved",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Appointment.this,"Congrats !, Your Appointment is Booked Successfully.",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Appointment.this,"Failed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Appointment.this,"Appointment Booking Failed",Toast.LENGTH_SHORT).show();
                 }
             });
         }
