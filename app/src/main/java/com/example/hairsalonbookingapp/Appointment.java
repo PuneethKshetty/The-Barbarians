@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,6 +41,7 @@ public class Appointment extends AppCompatActivity {
     EditText time_in;
     Spinner spinnerName;
     Button btnInsertData,btnChooseData;
+    FirebaseAuth fAuth;
 
     private FirebaseFirestore db;
 
@@ -69,10 +72,12 @@ public class Appointment extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                String id = UUID.randomUUID().toString();
+                FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                String id = fAuth.getCurrentUser().getUid();
                 String date = date_in.getText().toString().trim();
                 String time = time_in.getText().toString().trim();
                 String barber = spinnerName.getSelectedItem().toString().trim();
+
 
             /*    if (TextUtils.isEmpty(date)) {
                     date_in.setError("Add a Appointment Date");
@@ -147,13 +152,13 @@ public class Appointment extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(Appointment.this,"data Saved",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Appointment.this,"Congrats!, your appointment is booked successfully",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Appointment.this,"Failed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Appointment.this,"Appointment booking Failed",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -174,6 +179,7 @@ public class Appointment extends AppCompatActivity {
                 time_in.setText(simpleDateFormat.format(calendar.getTime()));
             }
         };
+
          new TimePickerDialog(Appointment.this,timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
 
     }
@@ -187,7 +193,7 @@ public class Appointment extends AppCompatActivity {
                 calendar.set(Calendar.YEAR,year);
                 calendar.set(Calendar.MONTH,month);
                 calendar.set(Calendar.DAY_OF_MONTH,dayofMonth);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                 date_in.setText(simpleDateFormat.format(calendar.getTime()));
             }
         };

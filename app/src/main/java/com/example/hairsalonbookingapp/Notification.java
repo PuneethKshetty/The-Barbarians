@@ -36,7 +36,6 @@ public class Notification extends AppCompatActivity {
     private MyAdapter adapter;
     private List<Booking> list;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +50,11 @@ public class Notification extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(Notification.this));
 
         db = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         list = new ArrayList<>();
         adapter = new MyAdapter(Notification.this,list);
         recyclerView.setAdapter(adapter);
+
+
 
         showData();
 
@@ -79,7 +79,9 @@ public class Notification extends AppCompatActivity {
 
     }
     private void showData(){
-        db.collection("Documents").get()
+        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+        String id = fAuth.getCurrentUser().getUid();
+        db.collection("Documents").whereEqualTo("id",id).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

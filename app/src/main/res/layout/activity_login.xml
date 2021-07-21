@@ -59,9 +59,10 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.154" />
+        app:layout_constraintVertical_bias="0.168" />
 
     <EditText
         android:id="@+id/Email"
@@ -86,8 +87,8 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="298dp"
-        android:layout_height="51dp"
+        android:layout_width="297dp"
+        android:layout_height="52dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"

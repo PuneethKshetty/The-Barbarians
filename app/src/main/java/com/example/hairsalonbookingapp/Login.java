@@ -76,10 +76,11 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), OnBoardingActivity.class));
+                            Toast.makeText(Login.this, "Logged in Successfully !!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(Login.this, OnBoardingActivity.class));
+                            finish();
                         } else {
-                            Toast.makeText(Login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Login Failed ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
 
@@ -92,10 +93,9 @@ public class Login extends AppCompatActivity {
    mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Register.class));
+                startActivity(new Intent(Login.this,Register.class));
             }
         });
-
 
 /*
         forgotTextLink.setOnClickListener(new View.OnClickListener() {

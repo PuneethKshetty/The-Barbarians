@@ -81,11 +81,11 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).
+                            Toast.makeText(Register.this, "User is Registered Successfully !!", Toast.LENGTH_SHORT).
                                     show();
                             startActivity(new Intent(getApplicationContext(), Login.class));
                         } else {
-                            Toast.makeText(Register.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, "Registration Failed !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
