@@ -36,6 +36,11 @@ public class Notification extends AppCompatActivity {
     private MyAdapter adapter;
     private List<Booking> list;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 97e2d833b730f889f435f6eda89b197bfb31a442
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
